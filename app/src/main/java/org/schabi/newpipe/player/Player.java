@@ -489,10 +489,18 @@ public final class Player implements
         simpleExoPlayer.addTextOutput(binding.subtitleView);
 
         // Setup audio session with onboard equalizer
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        // [ExoPlayerLib/2.12.3] [Hi3798MV200, Formuler CC, FORMULER, 24]
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                && !Build.DEVICE.equals("Hi3798MV200")) {
+            if (DEBUG) {
+                Log.d(TAG, "Hi3798MV200 test setTunnelingAudioSessionId");
+            }
             trackSelector.setParameters(trackSelector.buildUponParameters()
                     .setTunnelingAudioSessionId(C.generateAudioSessionIdV21(context)));
+        } else if (DEBUG) {
+            Log.d(TAG, "Hi3798MV200 test DO NOT setTunnelingAudioSessionId");
         }
+
     }
 
     private void initListeners() {
